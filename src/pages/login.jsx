@@ -18,7 +18,7 @@ import { Separator } from "../components/ui/separator"
 import { Input } from "../components/ui/input"
 
 const axiosInstance = axios.create({
-    baseURL:"http://localhost:8080",
+    baseURL:"https://springbackend-zei7.onrender.com",
     timeout:10000,
     headers : {
         "Content-Type":"application/json"
