@@ -1,11 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import { AuthContext } from './contexts/AuthContext';
+import { AiResponse } from './axiosServices/axiosHelper';
 import { Sparkles, ArrowUp, Paperclip, Smile, School } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import logo from "../src/assets/Screenshot_2026-08-05_155526-removebg-preview.png"
+import { Button } from './components/ui/button';
+import ReactMarkdown from 'react-markdown';
+import Markdown from 'react-markdown';
 
 export default function ChatDashboard() {
   const [messages, setMessages] = useState([]);
+  const [sessions, setSessions] = useState([]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+
+  const {name} = useContext(AuthContext);
 
   // Auto-scroll to the latest message
   useEffect(() => {
@@ -14,41 +24,66 @@ export default function ChatDashboard() {
     }
   }, [messages]);
 
-  const handleSend = (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
-    if (!input.trim()) return;
 
+
+    setLoading(true);
+    const request = input;
+    if (!request.trim()) return;
     const userMessage = {
       id: Date.now().toString(),
       role: 'user',
-      content: input,
+      content: request,
     };
 
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
+    
+    const currentid = (Date.now() + 1).toString();
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: currentid,
+        role: 'assistant',
+        content: "انتظر قليلا...",
+      },
+    ]);
+
+    AiResponse(request)
+      .then(({data}) => {
+        console.log(data);
+        setMessages(prev => 
+          prev.map(msg => 
+            msg.id === currentid
+          ? { ...msg, content: data.answer } // adjust to your response shape
+          : msg
+          )
+        )
+      }).catch(e => {
+          setMessages(prev => 
+          prev.map(msg => 
+            msg.id === currentid
+          ? { ...msg, content: "عذرا، حدث خطأ ما. يرجى المحاولة لاحقاً" } // adjust to your response shape
+          : msg
+          )
+        )
+      }).finally(() => {
+        setLoading(false)
+      })
 
     // Simulate AI response
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content: "This is a sleek mock response matching the minimal UI layout.",
-        },
-      ]);
-    }, 1000);
   };
 
   const isHomeState = messages.length === 0;
 
   return (
-    <div className="flex h-screen w-screen flex-col bg-zinc-50 font-sans text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50 overflow-hidden">
+    <div className="flex h-[calc(100vh-theme(spacing.14))] w-screen flex-col bg-zinc-50 font-sans text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50 overflow-hidden" dir='rtl'>
       
 
       {/* Main Workspace Layout */}
       {/* Framer Motion switches this flex layout smoothly between centered and bottom-heavy alignments */}
-      <div className={`flex flex-1 flex-col overflow-hidden transition-colors duration-500 ${
+      <div className={`flex flex-1 flex-col overflow-hidden transition-colors duration-500 font-['Noto_Sans_Arabic_Variable'] ${
         isHomeState ? 'justify-center pb-[10vh]' : 'justify-end'
       }`}>
         
@@ -61,14 +96,28 @@ export default function ChatDashboard() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, height: 0, marginBottom: 0 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="mx-auto w-full max-w-2xl text-center space-y-4 px-4 mb-8 overflow-hidden"
+              className="mx-auto w-full max-w-2xl text-center px-4 overflow-hidden"
             >
-              <h1 className="text-4xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
-                What can I help you with today?
-              </h1>
-              <p className="text-sm text-zinc-500 max-w-md mx-auto">
-                You can ask me anything in education and psychology!
-              </p>
+              <div className='flex justify-center'>
+              <img src={logo} className='w-[150px] mb-2'></img>
+              </div>
+              <div className='w-full flex-col bg-[#e6f0fa] p-3 rounded-t-2xl text-right border-2 border-b-0 flex flex-wrap gap-1'>
+                <h2 className="text-xl text-gray-700 font-semibold tracking-tight dark:text-zinc-100 leading-[1.35]">
+                أهلا بك أستاذ {name}👋
+                </h2>
+                <p>
+                  المعلم الخبير جاهز لدعمك فوراً 🫡
+                </p>
+                <p className="text-sm text-zinc-500 w-full mx-auto">
+                  لتوفير وقتك الثمين، هل يتعلق استفسارك بأحد الأمور التالية؟
+                </p>
+              </div>
+              <div className='flex-wrap flex gap-2 justify-center w-full bg-white border-2 border-t-0 rounded-b-2xl py-4 pb-4'>
+                <Button variant="outline" className={"rounded-full border-green-300"}>الإدارة الصفية 🏫</Button>
+                <Button variant='outline' className={"rounded-full border-blue-300"}>النظام الوزاري 🏛️</Button>
+                <Button variant='outline' className={"rounded-full border-purple-400"}>الشراكة المجتمعية 🤝</Button>
+                <Button variant='outline' className={"rounded-full border-gray-400"}>علم النفس التربوي 🧠</Button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -88,11 +137,17 @@ export default function ChatDashboard() {
                   <div
                     className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm ${
                       msg.role === 'user'
-                        ? 'bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900'
+                        ? 'bg-[#059669] text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900'
                         : 'bg-white border border-zinc-200/60 dark:bg-zinc-900 dark:border-zinc-800/60'
                     }`}
                   >
-                    {msg.content}
+                    {msg.role === "assistant" ? (
+                      <ReactMarkdown>
+                        {msg.content}
+                      </ReactMarkdown>
+                    ) : (
+                      msg.content
+                    )}
                   </div>
                 </div>
               ))}
@@ -115,24 +170,20 @@ export default function ChatDashboard() {
             >
 
               <input
+                dir='rtl'
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask anything..."
+                placeholder="إسالني..."
                 className="flex-1 bg-transparent px-3 py-2 text-sm outline-none placeholder:text-zinc-400"
               />
 
               <div className="flex items-center gap-1">
-                <button
-                  type="button"
-                  className="flex h-9 w-9 items-center justify-center rounded-xl text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
-                >
-                </button>
                 
                 <button
                   type="submit"
-                  disabled={!input.trim()}
-                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-900 text-zinc-50 transition-all hover:bg-zinc-800 disabled:opacity-30 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                  disabled={!input.trim() || loading === true}
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1E3A8A] text-zinc-50 transition-all disabled:opacity-30 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 cursor-pointer disabled:cursor-default"
                 >
                   <ArrowUp className="h-4 w-4 stroke-[2.5]" />
                 </button>
@@ -140,7 +191,7 @@ export default function ChatDashboard() {
             </form>
             
             <p className="mt-2 text-center text-xs text-zinc-400 dark:text-zinc-500">
-              Assistant may display inaccurate info. Verify important details.
+              يرجى مراجعة الأجوبة الناتجة من النموذج
             </p>
           </div>
         </motion.footer>

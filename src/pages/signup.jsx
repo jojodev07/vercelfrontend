@@ -1,7 +1,8 @@
 import React from "react";
 import axios from 'axios';
 import { useNavigate, NavLink } from 'react-router-dom';
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -39,6 +40,8 @@ function getAxiosError(error) {
 
 export function Signup() {
 
+    const auth = useContext(AuthContext);
+
     const [name, useName] = useState("");
     const [email, useEmail] = useState("");
     const [password, usePassword] = useState("");
@@ -68,8 +71,11 @@ export function Signup() {
             try {
                 // register user.
                 const result = await register({name, email, password});
-                console.log(result);
-                navigate(`/signup-finish?token=${result.data.promptUUID}`);
+
+                // log in user directly, no verification is needed.
+                auth.setUserEmail(email);
+                auth.setName(name);
+                navigate(`/`);
 
 
             } catch (error) {

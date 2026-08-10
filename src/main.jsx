@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from './contexts/AuthContext.jsx';
+import '@fontsource-variable/noto-sans-arabic/index.css';
 import './index.css'
 import App from './App.jsx'
 import { RootLayout } from './pages/rootLayout.jsx';

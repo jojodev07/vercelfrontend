@@ -64,6 +64,7 @@ export function Login() {
                     // Handle successful JWT login here
                     console.log("Login successful, JWT received:", res.data.jwtToken);
                     auth.setUserEmail(res.data.email);
+                    auth.setName(res.data.name);
                     navigate('/');
                 }
 

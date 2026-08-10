@@ -6,6 +6,7 @@ export const AuthContext = createContext(null);
 export const AuthProvider = ({children}) => {
     // server cannot read JWT Cookie
     const [userEmail, setUserEmail] = useState(null); // userEmail || null;
+    const [name, setName] = useState(null);
     const [loading, setLoading] = useState(true);
 
     // will automatically change on new render.
@@ -21,6 +22,7 @@ export const AuthProvider = ({children}) => {
 
                 if (result) {
                     setUserEmail(result.data.email);
+                    setName(result.data.name);
 
                 }
             } catch (err) {
@@ -35,7 +37,7 @@ export const AuthProvider = ({children}) => {
 
     return (
         <AuthContext.Provider
-            value={{userEmail, loading, isAuthenticated, setUserEmail}}>
+            value={{userEmail, name, loading, isAuthenticated, setName, setUserEmail}}>
                 {children}
         </AuthContext.Provider>
     );

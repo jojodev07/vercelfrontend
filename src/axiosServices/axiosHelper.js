@@ -9,6 +9,15 @@ export const axiosInstance = axios.create({
     withCredentials:true
 })
 
+export const AIaxiosInstance = axios.create({
+    baseURL:"http://localhost:8000",
+    timeout:20000,
+    headers : {
+        "Content-Type":"application/json"
+    },
+    withCredentials:true
+})
+
 export async function VerifyAuthToken() {
 
     try {
@@ -39,4 +48,15 @@ export async function LogOut() {
                 console.log(err);
             })
 
+}
+
+// organization: .then .catch used in parent component.
+export async function AiResponse(request) {
+
+    const payload = {
+        question : request,
+        top_k : 10
+    }
+
+    return AIaxiosInstance.post("/ai/v1/query", payload);
 }
