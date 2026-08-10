@@ -145,7 +145,7 @@ export function Signup() {
                 </CardContent>
 
                 <CardFooter>
-                    <NavLink to={"https://springbackend-zei7.onrender.com/oauth2/login/google"} className={"w-full px-4"}>
+                    <NavLink to={"http://localhost:8080/oauth2/login/google"} className={"w-full px-4"}>
                         <Button 
                             type="button"
                             variant="outline" 
