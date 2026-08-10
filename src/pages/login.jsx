@@ -141,7 +141,7 @@ export function Login() {
                         <Button type="submit" className="w-full mt-2">
                                     Sign In
                         </Button>
-                        <NavLink to={"http://localhost:8080/oauth2/login/google"}>
+                        <NavLink to={"https://springbackend-zei7.onrender.com/oauth2/login/google"}>
                             <Button 
                                 type="button"
                                 variant="outline" 
