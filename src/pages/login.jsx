@@ -80,11 +80,6 @@ export function Login() {
         }
     }
 
-    const handleGoogleLogin = () => {
-        // for future google logic
-        console.log("Still not implemented!");
-    }
-
     return (
         <div className="flex items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
             <Card className="max-w-md w-full shadow-lg">

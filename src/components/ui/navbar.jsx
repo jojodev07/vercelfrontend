@@ -3,12 +3,28 @@ import { Button } from "./button";
 import { Badge } from "./badge"
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import { ThemeContext } from "../../contexts/DarkModeContext";
 import { LogOut } from "../../axiosServices/axiosHelper";
 import { School } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export function Navbar() {
 
     const {isAuthenticated, loading, userEmail, setUserEmail, setName} = useContext(AuthContext);
+    const {isDarkMode, toggleTheme} = useContext(ThemeContext);
     const navigate = useNavigate();
 
     const handleLogOut = () => {
@@ -41,8 +57,23 @@ export function Navbar() {
                 </NavLink>
             </div> ) :
             <div className="flex gap-4 items-center">
-                    <Button size={'lg'} variant="outline" className="cursor-pointer font-['Noto_Sans_Arabic_Variable']" onClick={handleLogOut}>سجل الخروج</Button>
-                <Badge variant="destructive" className="dark:bg-green-800 dark:text-green-300 bg-green-200 text-green-800">{userEmail}</Badge>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger render={
+                            <Badge
+                                render={<button type="button" />}
+                                variant="destructive"
+                                className="cursor-pointer bg-green-200 text-green-800 dark:bg-green-800 dark:text-green-300"
+                            >
+                                {userEmail}
+                            </Badge>
+                            }>
+                        </DropdownMenuTrigger>
+                          <DropdownMenuContent className="font-['Noto_Sans_Arabic_Variable']">
+                            <DropdownMenuItem onClick={handleLogOut}>تسجيل الخروج</DropdownMenuItem>
+                            <DropdownMenuItem onClick={toggleTheme}>{
+                                isDarkMode ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن"}</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
             </div>
             }
         </nav>

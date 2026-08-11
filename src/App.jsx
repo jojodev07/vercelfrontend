@@ -101,23 +101,59 @@ export default function ChatDashboard() {
               <div className='flex justify-center'>
               <img src={logo} className='w-[150px] mb-2'></img>
               </div>
-              <div className='w-full flex-col bg-[#e6f0fa] p-3 rounded-t-2xl text-right border-2 border-b-0 flex flex-wrap gap-1'>
-                <h2 className="text-xl text-gray-700 font-semibold tracking-tight dark:text-zinc-100 leading-[1.35]">
-                أهلا بك أستاذ {name}👋
-                </h2>
-                <p>
-                  المعلم الخبير جاهز لدعمك فوراً 🫡
-                </p>
-                <p className="text-sm text-zinc-500 w-full mx-auto">
-                  لتوفير وقتك الثمين، هل يتعلق استفسارك بأحد الأمور التالية؟
-                </p>
-              </div>
-              <div className='flex-wrap flex gap-2 justify-center w-full bg-white border-2 border-t-0 rounded-b-2xl py-4 pb-4'>
-                <Button variant="outline" className={"rounded-full border-green-300"}>الإدارة الصفية 🏫</Button>
-                <Button variant='outline' className={"rounded-full border-blue-300"}>النظام الوزاري 🏛️</Button>
-                <Button variant='outline' className={"rounded-full border-purple-400"}>الشراكة المجتمعية 🤝</Button>
-                <Button variant='outline' className={"rounded-full border-gray-400"}>علم النفس التربوي 🧠</Button>
-              </div>
+                <div className="w-full flex-col flex flex-wrap gap-1 p-3 rounded-t-2xl text-right
+                  bg-[#e6f0fa] dark:bg-zinc-900
+                  border-2 border-b-0 border-zinc-300 dark:border-zinc-700">
+
+                  <h2 className="text-xl font-semibold tracking-tight leading-[1.35]
+                    text-gray-700 dark:text-zinc-100">
+                    أهلا بك أستاذ {name}👋
+                  </h2>
+
+                  <p className="text-gray-700 dark:text-zinc-300">
+                    المعلم الخبير جاهز لدعمك فوراً 🫡
+                  </p>
+
+                  <p className="text-sm w-full mx-auto
+                    text-zinc-500 dark:text-zinc-400">
+                    لتوفير وقتك الثمين، هل يتعلق استفسارك بأحد الأمور التالية؟
+                  </p>
+                </div>
+
+                <div className="flex-wrap flex gap-2 justify-center w-full py-4
+                  bg-white dark:bg-zinc-950
+                  border-2 border-t-0
+                  border-zinc-300 dark:border-zinc-700
+                  rounded-b-2xl">
+
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-green-300 dark:border-green-700 dark:text-green-300"
+                  >
+                    الإدارة الصفية 🏫
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-blue-300 dark:border-blue-700 dark:text-blue-300"
+                  >
+                    النظام الوزاري 🏛️
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-purple-400 dark:border-purple-700 dark:text-purple-300"
+                  >
+                    الشراكة المجتمعية 🤝
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-gray-400 dark:border-zinc-600 dark:text-zinc-300"
+                  >
+                    علم النفس التربوي 🧠
+                  </Button>
+                </div>
             </motion.div>
           )}
         </AnimatePresence>
