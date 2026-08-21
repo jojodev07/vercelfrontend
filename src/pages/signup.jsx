@@ -92,10 +92,12 @@ export function Signup() {
         <div className="flex justify-center items-center bg-background px-4 py-12">
             <Card className="max-w-md w-full shadow-lg">
 
-                <CardHeader className="space-y-1">
-                    <CardTitle className="font-bold text-2xl tracking-tight text-center box-border">Sign Up</CardTitle>
+                <CardHeader className="space-y-1 font-['Noto_Sans_Arabic_Variable']">
+                    <CardTitle className="font-bold text-2xl tracking-tight text-center box-border">
+                        <h1 className="font-['Noto_Sans_Arabic_Variable']">تسجيل الحساب</h1>
+                    </CardTitle>
                     <CardDescription className="text-center">
-                        Enter your new account credentials
+                        ادخل معلومات حسابك الجديد
                     </CardDescription>
                 </CardHeader>
 
@@ -105,7 +107,7 @@ export function Signup() {
                         {errors.email && (<p className="font-light text-sm tracking-tight text-red-500">{errors.email}</p>)}
                         {errors.password && (<p className="font-light text-sm tracking-tight text-red-500">{errors.password}</p>)}
                         <div className="flex flex-col gap-4">
-                            <Label htmlFor="name">Name</Label>
+                            <Label htmlFor="name" className={"font-['Noto_Sans_Arabic_Variable']"}>الاسم</Label>
                             <Input
                                 id="name"
                                 type="text"
@@ -117,7 +119,7 @@ export function Signup() {
                         </div>
 
                         <div className="flex flex-col gap-4">
-                            <Label htmlFor="email">Email address</Label>
+                            <Label htmlFor="email" className={"font-['Noto_Sans_Arabic_Variable']"}>عنوان الايميل</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -128,7 +130,7 @@ export function Signup() {
                         </div>
 
                         <div className="flex flex-col gap-4">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password" className={"font-['Noto_Sans_Arabic_Variable']"}>كلمة السر</Label>
                             <Input
                                 id="password"
                                 type="password"
@@ -138,8 +140,8 @@ export function Signup() {
                             />
                         </div>
 
-                        <Button type="submit" className="w-full mt-2">
-                            Sign In
+                        <Button type="submit" className="w-full mt-2 font-['Noto_Sans_Arabic_Variable'] bg-[#059669] hover:bg-[#059669]">
+                            سجّل حسابك
                         </Button>
                     </form>
                 </CardContent>
@@ -149,13 +151,13 @@ export function Signup() {
                         <Button 
                             type="button"
                             variant="outline" 
-                            className="w-full flex items-center justify-center gap-2 rounded-full"
+                            className="w-full flex items-center justify-center gap-2 rounded-full font-['Noto_Sans_Arabic_Variable']"
                             onClick={() => {}}
                         >
                             <svg className="h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://w3.org" viewBox="0 0 488 512">
                                 <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
                             </svg>
-                            Sign up with Google
+                            كمل التسجيل مع قوقل
                     </Button>
                     </NavLink>
                 </CardFooter>

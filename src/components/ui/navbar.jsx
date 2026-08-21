@@ -50,10 +50,10 @@ export function Navbar() {
             
             ( <div className="flex gap-4">
                 <NavLink to={"/login"}>
-                    <Button size={'lg'} variant="outline" className="cursor-pointer">Login</Button>
+                    <Button size={'lg'} variant="outline" className="cursor-pointer">سجل الدخول</Button>
                 </NavLink>
                 <NavLink to={"/signup"}>
-                    <Button size={'lg'} variant="outline" className="cursor-pointer">Sign up</Button>
+                    <Button size={'lg'} variant="outline" className="cursor-pointer">حساب جديد</Button>
                 </NavLink>
             </div> ) :
             <div className="flex gap-4 items-center">
