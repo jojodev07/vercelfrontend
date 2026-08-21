@@ -5,6 +5,7 @@ import { Sparkles, ArrowUp, Paperclip, Smile, School } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from "../src/assets/Screenshot_2026-08-05_155526-removebg-preview.png"
 import { Button } from './components/ui/button';
+import { Skeleton } from "@/components/ui/skeleton";
 import ReactMarkdown from 'react-markdown';
 import Markdown from 'react-markdown';
 
@@ -163,30 +164,43 @@ export default function ChatDashboard() {
         {!isHomeState && (
           <main className="flex-1 overflow-y-auto px-4 py-8">
             <div className="mx-auto max-w-2xl space-y-6">
-              {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex w-full ${
-                    msg.role === 'user' ? 'justify-end' : 'justify-start'
-                  }`}
-                >
+              {messages.map((msg, index) => {
+                // Check if this specific item is the current pending message
+                const isLatestLoadingMessage = 
+                  loading && 
+                  index === messages.length - 1 && 
+                  msg.role === 'assistant';
+
+                return (
                   <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm ${
-                      msg.role === 'user'
-                        ? 'bg-[#059669] text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900'
-                        : 'bg-white border border-zinc-200/60 dark:bg-zinc-900 dark:border-zinc-800/60'
+                    key={msg.id}
+                    className={`flex w-full ${
+                      msg.role === 'user' ? 'justify-end' : 'justify-start'
                     }`}
                   >
-                    {msg.role === "assistant" ? (
-                      <ReactMarkdown>
-                        {msg.content}
-                      </ReactMarkdown>
-                    ) : (
-                      msg.content
-                    )}
+                    <div
+                      className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm ${
+                        msg.role === 'user'
+                          ? 'bg-[#059669] text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900'
+                          : 'bg-white border border-zinc-200/60 dark:bg-zinc-900 dark:border-zinc-800/60'
+                      }`}
+                    >
+                      {isLatestLoadingMessage ? (
+                        /* Shimmer loading layout for the active assistant message */
+                        <div className="space-y-2 py-1 w-48 sm:w-64">
+                          <Skeleton className="h-3.5 w-full bg-zinc-200 dark:bg-zinc-800" />
+                          <Skeleton className="h-3.5 w-[20%] bg-zinc-200 dark:bg-zinc-800" />
+                          <Skeleton className="h-3.5 w-[40%] bg-zinc-200 dark:bg-zinc-800" />
+                        </div>
+                      ) : msg.role === 'assistant' ? (
+                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                      ) : (
+                        msg.content
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
               <div ref={messagesEndRef} />
             </div>
           </main>
