@@ -13,6 +13,8 @@ import PersistLogin from './axiosServices/persistLogin.jsx';
 import NoLoginCheck from './axiosServices/noLoginCheck.jsx';
 import VerificationSuccessPage from './pages/congratulateVerify.jsx';
 import { ThemeProvider } from './contexts/DarkModeContext.jsx';
+import { OfficialFiles } from './pages/officialfiles.jsx';
+import { SidebarHelper } from './axiosServices/sidebarhelper.jsx';
 
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
@@ -21,7 +23,10 @@ createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path="/" element={<RootLayout />}>
             <Route element={<PersistLogin/>}>
-              <Route index element={<App />}/>
+              <Route element={<SidebarHelper/>}>
+                <Route index element={<App />}/>
+                <Route path="/files" element={<OfficialFiles/>} />
+              </Route>
             </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />

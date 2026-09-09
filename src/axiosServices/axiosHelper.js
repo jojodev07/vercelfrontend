@@ -60,3 +60,14 @@ export async function AiResponse(request) {
 
     return AIaxiosInstance.post("/ai/v1/query", payload);
 }
+
+export async function sendDatatoSheet(request) {
+    const url = "https://script.google.com/macros/s/AKfycbxd4-XHcQiuFH6Y4oQ0BLqdtfRUgZPUst717RLTgsrQoxfWmo2HcOjVMnb_BDXzoGNrRw/exec";
+
+    try {
+        const response = await axios.post(url, request);
+        console.log("Successfully sent.");
+    } catch(err) {
+        console.error('Error posting data:', err);
+    }
+}

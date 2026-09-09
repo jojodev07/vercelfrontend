@@ -20,7 +20,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 export function Navbar() {
 
     const {isAuthenticated, loading, userEmail, setUserEmail, setName} = useContext(AuthContext);
@@ -42,7 +42,8 @@ export function Navbar() {
 
     return (
         <nav className="w-screen flex items-center justify-around h-14  border-b border-gray-800 font-['Noto_Sans_Arabic_Variable']">
-            <div className="font-semibold flex gap-2">
+            <div className="font-semibold flex gap-2 items-center">
+                <SidebarTrigger className="items-center"></SidebarTrigger>
                 <span className="tracking-tight text-base">المعلم الخبير</span>
             </div>
 

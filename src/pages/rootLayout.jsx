@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import { Navbar } from "../components/ui/navbar";
 import { LoaderComponent } from "../components/ui/loader";
 import { AuthContext, AuthProvider } from "../contexts/AuthContext";
-
 export function RootLayout() {
 
     const {loading} = useContext(AuthContext);
@@ -13,7 +12,6 @@ export function RootLayout() {
     } else {
         return (
             <div>
-                <Navbar/>
                 <Outlet/>
             </div>
         )
